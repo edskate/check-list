@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Checklist do Estabelecimento – Show / Pocket Show</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f7f9fa;
+            color: #222;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+        }
+        .info {
+            margin-bottom: 28px;
+            font-size: 1.08em;
+            background: #e3eaf2;
+            padding: 14px 18px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px #0001;
+        }
+        .info label {
+            font-weight: bold;
+        }
+        .section {
+            margin-bottom: 32px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #0001;
+            padding: 18px 22px 10px 22px;
+        }
+        .section-title {
+            background: #3a4e6b;
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 1.13em;
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 1px 4px #0001;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .checklist li {
+            margin-bottom: 13px;
+            display: flex;
+            align-items: center;
+            background: #f1f5fa;
+            border-radius: 5px;
+            padding: 7px 10px;
+            transition: background 0.2s;
+        }
+        .checklist li:hover {
+            background: #e0eaf6;
+        }
+        .checklist input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            margin-right: 14px;
+            accent-color: #3a4e6b;
+        }
+        .observacoes {
+            margin-top: 32px;
+            background: #e3eaf2;
+            border-radius: 8px;
+            padding: 14px 18px;
+            box-shadow: 0 1px 4px #0001;
+        }
+        textarea {
+            width: 100%;
+            min-height: 70px;
+            font-size: 1em;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #b5c7d3;
+            resize: vertical;
+            background: #f7f9fa;
+        }
+        @media print {
+            body { margin: 0; }
+            .no-print { display: none; }
+            .section, .info, .observacoes { box-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Checklist do Estabelecimento – Show / Pocket Show</h1>
+    <div class="info">
+        <label>Data do Evento:</label> ____________________ &nbsp;&nbsp;
+        <label>Hora de Início:</label> 19h30 &nbsp;&nbsp;
+        <label>Responsável pelo Evento:</label> ____________________
+    </div>
+
+    <div class="section">
+        <div class="section-title">Seção 1: Chegada e presença das atrações</div>
+        <ul class="checklist">
+            <li><input type="checkbox"> Confirmar presença de todos os artistas (show principal e pocket)</li>
+            <li><input type="checkbox"> Confirmar presença da equipe de som</li>
+            <li><input type="checkbox"> Confirmar presença da equipe de luz</li>
+            <li><input type="checkbox"> Confirmar presença do cinegrafista / equipe de filmagem</li>
+            <li><input type="checkbox"> Confirmar presença de auxiliares e técnicos de palco</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Seção 2: Estrutura e equipamentos</div>
+        <ul class="checklist">
+            <li><input type="checkbox"> Palco pronto e seguro</li>
+            <li><input type="checkbox"> Camarins e áreas de apoio preparadas</li>
+            <li><input type="checkbox"> Microfones testados</li>
+            <li><input type="checkbox"> Instrumentos musicais prontos e afinados</li>
+            <li><input type="checkbox"> Mesa de som giratório</li>
+            <li><input type="checkbox"> Caixas de som posicionadas e testadas</li>
+            <li><input type="checkbox"> Luzes limpas e giro</li>
+            <li><input type="checkbox"> Cabos e conexões organizadas</li>
+            <li><input type="checkbox"> Equipamentos de filmagem testados (câmeras, tripés, baterias, memória)</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Seção 3: Segurança</div>
+        <ul class="checklist">
+            <li><input type="checkbox"> Controle de acesso ao palco e bastidores</li>
+            <li><input type="checkbox"> Supervisão da entrada do público</li>
+            <li><input type="checkbox"> Prevenção de acidentes com equipamentos</li>
+            <li><input type="checkbox"> Comunicação rápida para qualquer problema</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Seção 4: Logística e suporte</div>
+        <ul class="checklist">
+            <li><input type="checkbox"> Água e alimentação disponível para artistas e equipe</li>
+            <li><input type="checkbox"> Espaço para descanso da equipe e artistas</li>
+            <li><input type="checkbox"> Acesso seguro para entrada de equipamentos e materiais</li>
+            <li><input type="checkbox"> Revisão final do cronograma do show/pocket</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Seção 5: Cumprimento de horários</div>
+        <ul class="checklist">
+            <li><input type="checkbox"> Verifique a ordem das apresentações</li>
+            <li><input type="checkbox"> Garantir início do show/pocket <strong>com 1 a 2 horas de antecedência</strong></li>
+            <li><input type="checkbox"> Avisar equipe e artistas sobre ajustes ou atrasos</li>
+        </ul>
+    </div>
+
+    <div class="observacoes">
+        <label><strong>Observações:</strong></label><br>
+        <textarea placeholder="Anote aqui qualquer observação importante..."></textarea>
+    </div>
+
+    <div class="no-print" style="margin-top:30px; color:#555;">
+        <p>Você pode imprimir esta página ou salvar como PDF pelo navegador.</p>
+    </div>
+</body>
+</html>
