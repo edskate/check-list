@@ -1,11 +1,261 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check-list 001</title>
+    <title>Checklist do Estabelecimento – Show / Pocket Show</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f7f9fa;
+            color: #222;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 18px;
+            letter-spacing: 1px;
+        }
+        .info {
+            margin-bottom: 28px;
+            font-size: 1.08em;
+            background: #e3eaf2;
+            padding: 14px 18px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px #0001;
+        }
+        .info label {
+            font-weight: bold;
+        }
+        .section {
+            margin-bottom: 32px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #0001;
+            padding: 18px 22px 10px 22px;
+        }
+        .section-title {
+            background: #3a4e6b;
+            color: #fff;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 1.13em;
+            margin-bottom: 14px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 1px 4px #0001;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .checklist li {
+            margin-bottom: 13px;
+            display: flex;
+            align-items: center;
+            background: #f1f5fa;
+            border-radius: 5px;
+            padding: 7px 10px;
+            transition: background 0.2s;
+        }
+        .checklist li:hover {
+            background: #e0eaf6;
+        }
+        .checklist input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            margin-right: 14px;
+            accent-color: #3a4e6b;
+        }
+        .observacoes {
+            margin-top: 32px;
+            background: #e3eaf2;
+            border-radius: 8px;
+            padding: 14px 18px;
+            box-shadow: 0 1px 4px #0001;
+        }
+        textarea {
+            width: 100%;
+            min-height: 70px;
+            font-size: 1em;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #b5c7d3;
+            resize: vertical;
+            background: #f7f9fa;
+        }
+        @media print {
+            body { margin: 0; }
+            .no-print { display: none; }
+            .section, .info, .observacoes { box-shadow: none; }
+        }
+    </style>
 </head>
 <body>
-    <h1>Check-list 001:</h1>
+    <h1>Checklist do Estabelecimento – Show / Pocket Show</h1>
+    <div class="info">
+        <label>Data do Evento:</label> ____________________ &nbsp;&nbsp;
+        <label>Hora de Início:</label> 19h30 &nbsp;&nbsp;
+        <label>Responsável pelo Evento:</label> ____________________
+    </div>
+
+    <div class="section">
+        <div class="section-title">Seção 1: Chegada e presença das atrações</div>
+        <ul class="checklist">
+            <li><input type="checkbox"> Confirmar presença de todos os artistas (show principal e pocket)</li>
+            <li><input type="checkbox"> Confirmar presença da equipe de som</li>
+            <li><input type="checkbox"> Confirmar presença da equipe de luz</li>
+            <li><input type="checkbox"> Confirmar presença do cinegrafista / equipe de filmagem</li>
+            <li><input type="checkbox"> Confirmar presença de auxiliares e técnicos de palco</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Seção 2: Estrutura e equipamentos</div>
+        <ul class="checklist">
+            <li><input type="checkbox"> Palco pronto e seguro</li>
+            <li><input type="checkbox"> Camarins e áreas de apoio preparadas</li>
+            <li><input type="checkbox"> Microfones testados</li>
+            <li><input type="checkbox"> Instrumentos musicais prontos e afinados</li>
+            <li><input type="checkbox"> Mesa de som giratório</li>
+            <li><input type="checkbox"> Caixas de som posicionadas e testadas</li>
+            <li><input type="checkbox"> Luzes limpas e giro</li>
+            <li><input type="checkbox"> Cabos e conexões organizadas</li>
+            <li><input type="checkbox"> Equipamentos de filmagem testados (câmeras, tripés, baterias, memória)</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Seção 3: Segurança</div>
+        <ul class="checklist">
+            <li><input type="checkbox"> Controle de acesso ao palco e bastidores</li>
+            <li><input type="checkbox"> Supervisão da entrada do público</li>
+            <li><input type="checkbox"> Prevenção de acidentes com equipamentos</li>
+            <li><input type="checkbox"> Comunicação rápida para qualquer problema</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Seção 4: Logística e suporte</div>
+        <ul class="checklist">
+            <li><input type="checkbox"> Água e alimentação disponível para artistas e equipe</li>
+            <li><input type="checkbox"> Espaço para descanso da equipe e artistas</li>
+            <li><input type="checkbox"> Acesso seguro para entrada de equipamentos e materiais</li>
+            <li><input type="checkbox"> Revisão final do cronograma do show/pocket</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Seção 5: Cumprimento de horários</div>
+        <ul class="checklist">
+            <li><input type="checkbox"> Verifique a ordem das apresentações</li>
+            <li><input type="checkbox"> Garantir início do show/pocket <strong>com 1 a 2 horas de antecedência</strong></li>
+            <li><input type="checkbox"> Avisar equipe e artistas sobre ajustes ou atrasos</li>
+        </ul>
+    </div>
+
+    <div class="observacoes">
+        <label><strong>Observações:</strong></label><br>
+        <textarea placeholder="Anote aqui qualquer observação importante..."></textarea>
+    </div>
+
+    <div class="no-print" style="margin-top:30px;">
+        <button id="savePdfBtn" style="padding:10px 18px; font-size:1em; background:#3a4e6b; color:#fff; border:none; border-radius:6px; cursor:pointer;">
+            Salvar como PDF
+        </button>
+        <div id="history" style="margin-top:18px;">
+            <strong>Histórico de salvamentos:</strong>
+            <ul id="historyList" style="margin:8px 0 0 18px; padding:0;"></ul>
+        </div>
+        <p style="color:#555;">Você pode imprimir esta página ou salvar como PDF pelo navegador.</p>
+    </div>
+
+    <!-- Adicione esta linha ANTES do jsPDF CDN para garantir que html2canvas está disponível -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- jsPDF CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.getElementById('savePdfBtn').onclick = function() {
+            // Seleciona o conteúdo a ser salvo (tudo menos .no-print)
+            const checklistArea = document.body.cloneNode(true);
+            checklistArea.querySelectorAll('.no-print').forEach(e => e.remove());
+
+            // Copia o valor do textarea para o clone
+            const originalTextarea = document.querySelector('.observacoes textarea');
+            const clonedTextarea = checklistArea.querySelector('.observacoes textarea');
+            if (originalTextarea && clonedTextarea) {
+                clonedTextarea.value = originalTextarea.value;
+            }
+
+            // Copia o estado dos checkboxes para o clone
+            const originalCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            const clonedCheckboxes = checklistArea.querySelectorAll('input[type="checkbox"]');
+            originalCheckboxes.forEach((checkbox, idx) => {
+                if (clonedCheckboxes[idx]) {
+                    clonedCheckboxes[idx].checked = checkbox.checked;
+                }
+            });
+
+            // Cria um container oculto para renderizar o clone
+            const container = document.createElement('div');
+            container.style.position = 'fixed';
+            container.style.left = '-9999px';
+            container.appendChild(checklistArea);
+            document.body.appendChild(container);
+
+            html2canvas(checklistArea, {scale:2}).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const { jsPDF } = window.jspdf;
+                const pdf = new jsPDF('p', 'pt', 'a4');
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                // Calcula altura proporcional
+                const imgWidth = pageWidth;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+
+                // Se a imagem for maior que uma página, adiciona páginas extras
+                let heightLeft = imgHeight - pageHeight;
+                while (heightLeft > 0) {
+                    position = position - pageHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                pdf.save('Checklist-Show.pdf');
+                saveHistory();
+                document.body.removeChild(container);
+            });
+        };
+
+        // Função para salvar data/hora no histórico
+        function saveHistory() {
+            let history = JSON.parse(localStorage.getItem('pdfHistory') || '[]');
+            const now = new Date();
+            const data = now.toLocaleDateString();
+            const hora = now.toLocaleTimeString();
+            history.unshift(`${data} ${hora}`);
+            if (history.length > 10) history = history.slice(0, 10); // Limita a 10 entradas
+            localStorage.setItem('pdfHistory', JSON.stringify(history));
+            renderHistory();
+        }
+
+        // Função para mostrar histórico
+        function renderHistory() {
+            let history = JSON.parse(localStorage.getItem('pdfHistory') || '[]');
+            const ul = document.getElementById('historyList');
+            ul.innerHTML = '';
+            history.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                ul.appendChild(li);
+            });
+        }
+
+        // Renderiza histórico ao carregar
+        renderHistory();
+    </script>
 </body>
 </html>
