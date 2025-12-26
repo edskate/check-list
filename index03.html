@@ -1,0 +1,803 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>checks Pré-Show (Edy) — Interativo</title>
+  <style>
+    :root{
+      --bg1:#0b0f18;
+      --bg2:#05060a;
+      --card: rgba(255,255,255,0.06);
+      --card2: rgba(255,255,255,0.10);
+      --border: rgba(255,255,255,0.12);
+      --text: rgba(255,255,255,0.92);
+      --muted: rgba(255,255,255,0.70);
+      --danger: #ff4d4d;
+      --ok: #35d07f;
+      --warn: #ffd24d;
+    }
+
+    html, body { height: 100%; margin: 0; }
+    body{
+      background: radial-gradient(1200px 800px at 25% 10%, #1f2a44 0%, var(--bg1) 45%, var(--bg2) 100%);
+      color: var(--text);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height: 1.35;
+    }
+
+    .wrap{
+      max-width: 1100px;
+      margin: 24px auto;
+      padding: 0 16px 40px;
+    }
+
+    header{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    h1{
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 0.2px;
+    }
+    .sub{
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns: 1.25fr 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      padding: 14px;
+    }
+
+    .card h2{
+      margin: 0 0 10px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.90);
+    }
+
+    .grid2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    input[type="text"], input[type="date"], input[type="time"], select{
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.35);
+      color: var(--text);
+      outline: none;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:flex-end;
+      margin-top: 10px;
+    }
+
+    button{
+      cursor:pointer;
+      border: 0;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.12);
+      color: var(--text);
+      font-weight: 800;
+    }
+    button:hover{ background: rgba(255,255,255,0.18); }
+    button.primary{ background: rgba(53,208,127,0.22); border: 1px solid rgba(53,208,127,0.35); }
+    button.primary:hover{ background: rgba(53,208,127,0.30); }
+    button.danger{ background: rgba(255,77,77,0.18); border: 1px solid rgba(255,77,77,0.30); }
+    button.danger:hover{ background: rgba(255,77,77,0.25); }
+
+    .tabs{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin: 14px 0;
+    }
+    .tab{
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-weight: 900;
+    }
+    .tab.active{
+      background: rgba(255,210,77,0.16);
+      border-color: rgba(255,210,77,0.30);
+    }
+
+    .twoCol{
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 12px;
+    }
+
+    .timeline{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .block{
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.30);
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .blockTop{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .when{
+      display:flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .timeBadge{
+      font-variant-numeric: tabular-nums;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-weight: 900;
+    }
+
+    .tasks{
+      display:flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .task{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding: 8px 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .task input{
+      margin-top: 3px;
+      transform: scale(1.15);
+    }
+
+    .task .txt{
+      flex:1;
+      font-size: 13px;
+    }
+    .task .meta{
+      color: var(--muted);
+      font-size: 11px;
+      margin-top: 3px;
+    }
+
+    .aside{
+      display:flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .kpi{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .kpi .box{
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 12px;
+    }
+    .kpi .n{
+      font-size: 18px;
+      font-weight: 1000;
+    }
+    .kpi .d{
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .rules{
+      font-size: 13px;
+      color: rgba(255,255,255,0.88);
+    }
+    .rules li{ margin: 8px 0; color: rgba(255,255,255,0.88); }
+    .rules b{ color: #fff; }
+
+    .footerNote{
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    /* ======= Modo 1 página (bastidores) ======= */
+    body.onepage .row,
+    body.onepage .aside .rulesCard,
+    body.onepage .aside .opsCard,
+    body.onepage .aside .footerCard{
+      display:none;
+    }
+    body.onepage .twoCol{
+      grid-template-columns: 1fr;
+    }
+    body.onepage header{
+      margin-bottom: 8px;
+    }
+
+    /* ======= PRINT (Salvar em PDF / imprimir) ======= */
+    @media print{
+      body{ background: #fff; color:#000; }
+      .wrap{ max-width: none; margin: 0; padding: 0; }
+      header, .actions, .tabs{ display:none !important; }
+      .card, .block, .task{ box-shadow:none; background:#fff; border-color:#ddd; }
+      .timeBadge{ background:#f3f3f3; border-color:#ddd; color:#000; }
+      .task .meta, .sub, .footerNote{ color:#333; }
+      .twoCol{ grid-template-columns: 1fr; }
+      .aside{ display:none; }
+      .block{ break-inside: avoid; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>✅ Checklist de Chegada — Pré-Show</h1>
+        <p class="sub">Horários automáticos por “T-”. Marque as tarefas. Tudo salva sozinho no navegador.</p>
+      </div>
+      <div class="actions">
+        <button id="btnOnePage">🖨️ Modo 1 página: OFF</button>
+        <button class="primary" id="btnPrint">📄 Imprimir / Salvar em PDF</button>
+        <button class="danger" id="btnReset">♻️ Zerar tudo</button>
+      </div>
+    </header>
+
+    <!-- Dados do evento -->
+    <section class="row">
+      <div class="card">
+        <h2>🎟️ Dados do Evento</h2>
+        <div class="grid2">
+          <div>
+            <label>Show / Projeto</label>
+            <input id="showName" type="text" placeholder="Ex.: Thriller Night / Pocket Show" />
+          </div>
+          <div>
+            <label>Local</label>
+            <input id="showPlace" type="text" placeholder="Ex.: Hard Rock / Teatro / Evento" />
+          </div>
+          <div>
+            <label>Data</label>
+            <input id="showDate" type="date" />
+          </div>
+          <div>
+            <label>Horário do show</label>
+            <input id="showTime" type="time" value="21:00" />
+          </div>
+        </div>
+        <div class="footerNote">Dica: altere o horário do show e a linha do tempo atualiza automaticamente.</div>
+      </div>
+
+      <div class="card">
+        <h2>👥 Elenco / Time</h2>
+        <div class="grid2">
+          <div>
+            <label>Nº de dançarinos</label>
+            <input id="dancers" type="text" placeholder="Ex.: 2 / 3 / 15" />
+          </div>
+          <div>
+            <label>Stage Manager</label>
+            <input id="stageManager" type="text" placeholder="Nome" />
+          </div>
+          <div>
+            <label>Técnico Som</label>
+            <input id="soundTech" type="text" placeholder="Nome" />
+          </div>
+          <div>
+            <label>Técnico Luz</label>
+            <input id="lightTech" type="text" placeholder="Nome" />
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🎭 Padrão / Observações</h2>
+        <label>Observações rápidas</label>
+        <input id="notes" type="text" placeholder="Ex.: luva brilhante / chapéu / mic stand / piso Billie Jean" />
+        <div class="footerNote">Essas infos aparecem no print (PDF) também.</div>
+      </div>
+    </section>
+
+    <!-- Tabs por versão -->
+    <nav class="tabs" id="tabs"></nav>
+
+    <!-- Conteúdo -->
+    <section class="twoCol">
+      <div class="card">
+        <h2 id="roleTitle">Linha do tempo</h2>
+        <div class="timeline" id="timeline"></div>
+      </div>
+
+      <aside class="aside">
+        <div class="card">
+          <h2>📊 Progresso</h2>
+          <div class="kpi">
+            <div class="box">
+              <div class="n" id="kDone">0</div>
+              <div class="d">Concluídas</div>
+            </div>
+            <div class="box">
+              <div class="n" id="kTotal">0</div>
+              <div class="d">Total</div>
+            </div>
+          </div>
+          <div class="footerNote" id="kPct">0% pronto</div>
+        </div>
+
+        <div class="card rulesCard">
+          <h2>⚠️ Regras (padrão do show)</h2>
+          <ul class="rules">
+            <li><b>Sem atraso:</b> chegada no mínimo T-90.</li>
+            <li><b>Figurino + maquiagem</b> fazem parte da proposta artística.</li>
+            <li><b>Celular proibido</b> após T-30 (silêncio total).</li>
+            <li><b>Microfone / retorno / luz</b> devem ser testados antes do início.</li>
+            <li><b>Concentração</b> é parte do espetáculo.</li>
+          </ul>
+        </div>
+
+        <div class="card opsCard">
+          <h2>✅ Atalhos</h2>
+          <div class="actions" style="justify-content:flex-start;">
+            <button id="btnMarkAll">✔️ Marcar tudo</button>
+            <button id="btnUnmarkAll">⬜ Desmarcar</button>
+          </div>
+          <div class="footerNote">Use “Modo 1 página” pra imprimir um checklist enxuto de bastidores.</div>
+        </div>
+
+        <div class="card footerCard">
+          <h2>✍️ Assinatura</h2>
+          <label>Nome</label>
+          <input id="signName" type="text" placeholder="Nome de quem está conferindo" />
+          <label style="margin-top:10px;">Horário de chegada (real)</label>
+          <input id="arrivalTime" type="time" />
+          <div class="footerNote">No print, isso vira a “ciência” do elenco/produção.</div>
+        </div>
+      </aside>
+    </section>
+  </div>
+
+<script>
+(() => {
+  const STORAGE_KEY = "edy_checklist_preshow_v1";
+
+  // --------- Modelos por função ----------
+  // offsets em minutos antes do show (T-)
+  const blocksBase = [
+    {
+      key: "t90",
+      title: "T - 90 min | CHEGADA OBRIGATÓRIA",
+      offsetMin: 90,
+      who: "Artista / Dançarinos",
+      tasks: [
+        "Registro de presença",
+        "Entrega/conferência de figurino individual",
+        "Conferir acessórios (luva, chapéu, meia, sapato)",
+        "Aquecimento leve + alongamento",
+        "Celular em silencioso (preparar modo palco)",
+        "Avisos finais da produção"
+      ]
+    },
+    {
+      key: "t75",
+      title: "T - 75 min | MAQUIAGEM & CABELO",
+      offsetMin: 75,
+      who: "Artista / Elenco",
+      tasks: [
+        "Maquiagem artística conforme proposta",
+        "Fixação (spray / pó) + brilho se aplicável",
+        "Cabelo / chapéu / ajustes de cena",
+        "Conferência sob luz branca e luz de palco"
+      ]
+    },
+    {
+      key: "t55",
+      title: "T - 55 min | FIGURINO",
+      offsetMin: 55,
+      who: "Artista / Elenco",
+      tasks: [
+        "Vestir figurino completo",
+        "Ajustar caimento (barra, cinto, suspensório)",
+        "Testar mobilidade (passos, giros, inclinação)",
+        "Conferir luva / mic / mic stand",
+        "Sapatos limpos e prontos"
+      ]
+    },
+    {
+      key: "t40",
+      title: "T - 40 min | PASSAGEM DE PALCO / SOM / LUZ",
+      offsetMin: 40,
+      who: "Técnico + Artista",
+      tasks: [
+        "Teste de microfone (voz / playback)",
+        "Teste de retorno",
+        "Marcação de palco (posição inicial e final)",
+        "Teste de luz (spot / piso / escada)",
+        "Checar efeitos especiais (se houver)"
+      ]
+    },
+    {
+      key: "t25",
+      title: "T - 25 min | CONCENTRAÇÃO",
+      offsetMin: 25,
+      who: "Produção / Direção",
+      tasks: [
+        "Alongamento final",
+        "Respiração / foco",
+        "Última checagem de figurino",
+        "Água disponível",
+        "Silêncio e concentração no backstage"
+      ]
+    },
+    {
+      key: "t10",
+      title: "T - 10 min | POSIÇÃO DE ENTRADA",
+      offsetMin: 10,
+      who: "Stage Manager / Produção",
+      tasks: [
+        "Artista na posição inicial",
+        "Luz em standby",
+        "Som pronto",
+        "Público acomodado / portas conforme combinado",
+        "Confirmação final: show autorizado"
+      ]
+    }
+  ];
+
+  // Versões específicas (filtra e adiciona itens)
+  const roles = [
+    { id:"geral", name:"Geral", icon:"✅", build: () => blocksBase },
+    { id:"dancarinos", name:"Dançarinos", icon:"🕺", build: () => {
+      const b = structuredClone(blocksBase);
+      // reforços
+      b[0].tasks.unshift("Chegada no horário (T-90) — responsabilidade individual");
+      b[2].tasks.push("Checar luvas/meias e itens de cena (sem esquecer nada)");
+      b[4].tasks.push("Posicionamento final confirmado com o artista");
+      return b.filter(x => ["t90","t75","t55","t25","t10"].includes(x.key));
+    }},
+    { id:"tecnico", name:"Técnico (Som/Luz)", icon:"🎚️", build: () => {
+      const b = structuredClone(blocksBase);
+      b[3].tasks.unshift("Console ligado + cena carregada (playlist / cues)");
+      b[3].tasks.push("Comunicação com Stage Manager (ok de início)");
+      b[5].tasks.unshift("Standby geral (luz/som prontos) + silêncio de rádio");
+      return b.filter(x => ["t40","t10"].includes(x.key)).concat([
+        {
+          key:"t60",
+          title:"T - 60 min | SETUP TÉCNICO (pré)",
+          offsetMin: 60,
+          who:"Técnico",
+          tasks:[
+            "Checar cabos, energia, backups e adaptadores",
+            "Line check rápido (se aplicável)",
+            "Teste de pista/playback (nível e qualidade)",
+            "Checar spotlight / followspot (se houver)",
+            "Checar piso (Billie Jean) / efeitos / fumaça (se houver)"
+          ]
+        }
+      ]).sort((a,b)=>b.offsetMin-a.offsetMin);
+    }},
+    { id:"artista", name:"Artista principal", icon:"🎤", build: () => {
+      const b = structuredClone(blocksBase);
+      b[1].tasks.unshift("Checar rosto/maquiagem no espelho e na luz de palco");
+      b[2].tasks.unshift("Conferir luva principal + item assinatura (chapéu / jaqueta)");
+      b[3].tasks.push("Checar mic stand (altura/posição) + entrada");
+      b[5].tasks.unshift("Respiração + foco (sem celular) — pronto para entrada");
+      return b;
+    }}
+  ];
+
+  // --------- State ----------
+  const state = load() || {
+    roleId: "geral",
+    onePage: false,
+    fields: {
+      showName: "", showPlace: "", showDate: "", showTime: "21:00",
+      dancers: "", stageManager: "", soundTech: "", lightTech: "",
+      notes: "", signName: "", arrivalTime: ""
+    },
+    checks: {} // { roleId: { blockKey: { idx: true } } }
+  };
+
+  // --------- DOM ----------
+  const $ = (id) => document.getElementById(id);
+  const tabsEl = $("tabs");
+  const timelineEl = $("timeline");
+  const roleTitleEl = $("roleTitle");
+
+  const inputs = [
+    "showName","showPlace","showDate","showTime",
+    "dancers","stageManager","soundTech","lightTech",
+    "notes","signName","arrivalTime"
+  ];
+
+  // Buttons
+  $("btnPrint").addEventListener("click", () => window.print());
+  $("btnReset").addEventListener("click", () => {
+    if (!confirm("Zerar tudo? Isso apaga marcações e campos.")) return;
+    localStorage.removeItem(STORAGE_KEY);
+    location.reload();
+  });
+
+  $("btnOnePage").addEventListener("click", () => {
+    state.onePage = !state.onePage;
+    applyOnePage();
+    save();
+  });
+
+  $("btnMarkAll").addEventListener("click", () => {
+    const blocks = getBlocks(state.roleId);
+    ensureChecksShape(state.roleId, blocks);
+    for (const b of blocks){
+      for (let i=0;i<b.tasks.length;i++){
+        state.checks[state.roleId][b.key][i] = true;
+      }
+    }
+    save(); renderTimeline(); renderKPI();
+  });
+
+  $("btnUnmarkAll").addEventListener("click", () => {
+    const blocks = getBlocks(state.roleId);
+    ensureChecksShape(state.roleId, blocks);
+    for (const b of blocks){
+      for (let i=0;i<b.tasks.length;i++){
+        state.checks[state.roleId][b.key][i] = false;
+      }
+    }
+    save(); renderTimeline(); renderKPI();
+  });
+
+  // Inputs binding
+  for (const id of inputs){
+    const el = $(id);
+    el.value = state.fields[id] || "";
+    el.addEventListener("input", () => {
+      state.fields[id] = el.value;
+      save();
+      if (id === "showTime") { renderTimeline(); }
+    });
+  }
+
+  // --------- Helpers ----------
+  function load(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    }catch(e){ return null; }
+  }
+  function save(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function applyOnePage(){
+    document.body.classList.toggle("onepage", !!state.onePage);
+    $("btnOnePage").textContent = state.onePage ? "🖨️ Modo 1 página: ON" : "🖨️ Modo 1 página: OFF";
+  }
+
+  function parseTimeToMinutes(hhmm){
+    if (!hhmm || !hhmm.includes(":")) return null;
+    const [h,m] = hhmm.split(":").map(Number);
+    if (Number.isNaN(h) || Number.isNaN(m)) return null;
+    return h*60 + m;
+  }
+  function minutesToHHMM(min){
+    let m = ((min % 1440) + 1440) % 1440;
+    const hh = String(Math.floor(m/60)).padStart(2,"0");
+    const mm = String(m%60).padStart(2,"0");
+    return `${hh}:${mm}`;
+  }
+  function computeBlockTime(showHHMM, offsetMin){
+    const showMin = parseTimeToMinutes(showHHMM);
+    if (showMin === null) return "--:--";
+    return minutesToHHMM(showMin - offsetMin);
+  }
+
+  function getBlocks(roleId){
+    const role = roles.find(r => r.id === roleId) || roles[0];
+    return role.build();
+  }
+
+  function ensureChecksShape(roleId, blocks){
+    state.checks[roleId] = state.checks[roleId] || {};
+    for (const b of blocks){
+      state.checks[roleId][b.key] = state.checks[roleId][b.key] || {};
+      // garante índices existentes
+      for (let i=0;i<b.tasks.length;i++){
+        if (typeof state.checks[roleId][b.key][i] !== "boolean"){
+          state.checks[roleId][b.key][i] = false;
+        }
+      }
+    }
+  }
+
+  // --------- Render Tabs ----------
+  function renderTabs(){
+    tabsEl.innerHTML = "";
+    for (const r of roles){
+      const btn = document.createElement("button");
+      btn.className = "tab" + (r.id === state.roleId ? " active" : "");
+      btn.textContent = `${r.icon} ${r.name}`;
+      btn.addEventListener("click", () => {
+        state.roleId = r.id;
+        save();
+        renderTabs();
+        renderTimeline();
+        renderKPI();
+      });
+      tabsEl.appendChild(btn);
+    }
+  }
+
+  // --------- Render Timeline ----------
+  function renderTimeline(){
+    const role = roles.find(r => r.id === state.roleId) || roles[0];
+    roleTitleEl.textContent = `Linha do tempo — ${role.icon} ${role.name}`;
+
+    const blocks = getBlocks(state.roleId);
+    ensureChecksShape(state.roleId, blocks);
+
+    const showTime = state.fields.showTime || "21:00";
+
+    timelineEl.innerHTML = "";
+    for (const b of blocks){
+      const wrap = document.createElement("div");
+      wrap.className = "block";
+
+      const top = document.createElement("div");
+      top.className = "blockTop";
+
+      const when = document.createElement("div");
+      when.className = "when";
+      const title = document.createElement("div");
+      title.style.fontWeight = "1000";
+      title.textContent = b.title;
+
+      const meta = document.createElement("div");
+      meta.className = "tag";
+      const time = computeBlockTime(showTime, b.offsetMin);
+      meta.textContent = `Responsável: ${b.who}`;
+
+      when.appendChild(title);
+      when.appendChild(meta);
+
+      const badge = document.createElement("div");
+      badge.className = "timeBadge";
+      badge.textContent = time;
+
+      top.appendChild(when);
+      top.appendChild(badge);
+
+      const tasksEl = document.createElement("div");
+      tasksEl.className = "tasks";
+
+      b.tasks.forEach((t, idx) => {
+        const row = document.createElement("label");
+        row.className = "task";
+
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = !!state.checks[state.roleId][b.key][idx];
+        cb.addEventListener("change", () => {
+          state.checks[state.roleId][b.key][idx] = cb.checked;
+          save();
+          renderKPI();
+        });
+
+        const txt = document.createElement("div");
+        txt.className = "txt";
+        txt.textContent = t;
+
+        row.appendChild(cb);
+        row.appendChild(txt);
+
+        tasksEl.appendChild(row);
+      });
+
+      // Observações do evento no final do checklist (aparece no PDF/print)
+      if (b.key === "t10"){
+        const note = document.createElement("div");
+        note.className = "footerNote";
+        note.style.marginTop = "10px";
+        note.textContent = `Obs.: ${state.fields.notes || "—"}`;
+        tasksEl.appendChild(note);
+
+        const sign = document.createElement("div");
+        sign.className = "footerNote";
+        sign.style.marginTop = "6px";
+        sign.textContent = `Conferência: ${state.fields.signName || "—"} | Chegada real: ${state.fields.arrivalTime || "—"}`;
+        tasksEl.appendChild(sign);
+      }
+
+      wrap.appendChild(top);
+      wrap.appendChild(tasksEl);
+      timelineEl.appendChild(wrap);
+    }
+  }
+
+  // --------- KPI ----------
+  function renderKPI(){
+    const blocks = getBlocks(state.roleId);
+    ensureChecksShape(state.roleId, blocks);
+
+    let total = 0, done = 0;
+    for (const b of blocks){
+      for (let i=0;i<b.tasks.length;i++){
+        total++;
+        if (state.checks[state.roleId][b.key][i]) done++;
+      }
+    }
+    $("kDone").textContent = done;
+    $("kTotal").textContent = total;
+
+    const pct = total ? Math.round((done/total)*100) : 0;
+    $("kPct").textContent = `${pct}% pronto`;
+  }
+
+  // init
+  applyOnePage();
+  renderTabs();
+  renderTimeline();
+  renderKPI();
+})();
+</script>
+</body>
+</html>
