@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Checklist Figurinos e Acessórios</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background:#f2f2f2;
+  padding:20px;
+}
+h1{text-align:center}
+.clock{text-align:center;font-size:1.4em;font-weight:bold;margin-bottom:10px}
+
+.legend{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  margin-bottom:10px;
+  font-weight:bold;
+}
+.legend .ok{background:#d4f5d4;padding:6px 12px;border-radius:8px}
+.legend .fail{background:#ffdddd;padding:6px 12px;border-radius:8px}
+
+.statusResumo{
+  text-align:center;
+  background:#222;
+  color:#fff;
+  padding:10px;
+  border-radius:10px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.section{
+  background:#fff;
+  padding:15px;
+  border-radius:10px;
+  margin-bottom:15px;
+  box-shadow:0 2px 5px rgba(0,0,0,.1)
+}
+
+label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px;
+  margin:5px 0;
+  border-radius:8px;
+  font-weight:bold;
+  background:#ffdddd;
+}
+label.ok{background:#d4f5d4}
+label .info{
+  margin-left:auto;
+  font-size:.75em;
+  color:#333;
+  font-weight:normal;
+}
+
+button{
+  padding:10px 14px;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  margin:5px;
+  cursor:pointer;
+  background:#4CAF50;
+  color:#fff;
+}
+button.secondary{background:#2196F3}
+
+.history{
+  background:#eee;
+  padding:10px;
+  border-radius:8px;
+  font-size:.9em;
+  font-weight:bold;
+}
+
+body.fullscreen{
+  background:#000;
+  color:#fff;
+}
+body.fullscreen .section{background:#111;color:#fff}
+body.fullscreen label{color:#000}
+</style>
+</head>
+
+<body>
+
+<h1>✅ Checklist Figurinos e Acessórios</h1>
+<div class="clock" id="clock"></div>
+
+<div class="legend">
+  <span class="ok">🟢 OK</span>
+  <span class="fail">🔴 FALTA</span>
+</div>
+
+<div class="statusResumo" id="statusResumo">Conferidos: 0 / 0</div>
+
+<button onclick="toggleFullscreen()">📱 Modo Bastidor</button>
+<button onclick="showResumo()">🧾 Resumo Final</button>
+
+<!-- SEÇÕES -->
+<div class="section">
+<h2>Música J</h2>
+<label><input type="checkbox"> Óculos 👓 <span class="info"></span></label>
+<label><input type="checkbox"> Casaco Preto 🧥 <span class="info"></span></label>
+<label><input type="checkbox"> Sapato/Bota <span class="info"></span></label>
+<label><input type="checkbox"> Chapéu Militar <span class="info"></span></label>
+</div>
+
+<div class="section">
+<h2>Música D</h2>
+<label><input type="checkbox"> Gravata <span class="info"></span></label>
+<label><input type="checkbox"> Blazer Social <span class="info"></span></label>
+<label><input type="checkbox"> Figurino Reserva <span class="info"></span></label>
+</div>
+
+<div class="section">
+<h2>Artista T</h2>
+<label><input type="checkbox"> Luvas Vermelhas <span class="info"></span></label>
+<label><input type="checkbox"> Meias Brancas <span class="info"></span></label>
+<label><input type="checkbox"> Sapato Correspondente <span class="info"></span></label>
+</div>
+
+<button onclick="saveChecklist()">💾 Salvar Registro</button>
+<button onclick="window.print()">📄 Exportar PDF</button>
+
+<div class="history">
+Histórico:
+<ul id="historyList"></ul>
+</div>
+
+<script>
+// RELÓGIO
+setInterval(()=>{
+  document.getElementById("clock").textContent =
+    new Date().toLocaleTimeString()
+},1000);
+
+// ATUALIZA CORES + INFO
+function updateStatus(){
+  const labels=document.querySelectorAll("label");
+  let ok=0;
+
+  labels.forEach(label=>{
+    const cb=label.querySelector("input");
+    const info=label.querySelector(".info");
+
+    if(cb.checked){
+      label.classList.add("ok");
+      ok++;
+      if(!info.textContent){
+        const nome=prompt("Responsável:", "Produção");
+        info.textContent=`✔ ${nome} • ${new Date().toLocaleTimeString()}`;
+      }
+    }else{
+      label.classList.remove("ok");
+      info.textContent="";
+    }
+  });
+
+  document.getElementById("statusResumo").textContent =
+    `Conferidos: ${ok} / ${labels.length}`;
+
+  localStorage.setItem("checklist", document.body.innerHTML);
+}
+
+// EVENTOS
+document.addEventListener("change",e=>{
+  if(e.target.type==="checkbox") updateStatus();
+});
+
+// SALVAR
+function saveChecklist(){
+  const total=document.querySelectorAll("label").length;
+  const ok=document.querySelectorAll("label.ok").length;
+
+  alert(ok===total ? "✅ PRONTO PARA O SHOW" :
+    `⚠️ Faltam ${total-ok} itens`);
+
+  const li=document.createElement("li");
+  li.textContent="Salvo em "+new Date().toLocaleString();
+  document.getElementById("historyList").appendChild(li);
+}
+
+// RESUMO
+function showResumo(){
+  const total=document.querySelectorAll("label").length;
+  const ok=document.querySelectorAll("label.ok").length;
+  alert(`RESUMO FINAL\n\nTotal: ${total}\nOK: ${ok}\nFalta: ${total-ok}`);
+}
+
+// FULLSCREEN
+function toggleFullscreen(){
+  document.body.classList.toggle("fullscreen");
+}
+
+// LOAD
+if(localStorage.getItem("checklist")){
+  document.body.innerHTML=localStorage.getItem("checklist");
+}
+updateStatus();
+</script>
+
+</body>
+</html>
