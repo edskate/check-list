@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>Checklist Figurinos e Acessórios</title>
+<title>checais Figurinos e Acessórios</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -91,7 +91,7 @@ body.fullscreen label{color:#000}
 
 <body>
 
-<h1>✅ Checklist Figurinos e Acessórios</h1>
+<h1>✅ checks Figurinos e Acessórios</h1>
 <div class="clock" id="clock"></div>
 
 <div class="legend">
@@ -127,7 +127,7 @@ body.fullscreen label{color:#000}
 <label><input type="checkbox"> Sapato Correspondente <span class="info"></span></label>
 </div>
 
-<button onclick="saveChecklist()">💾 Salvar Registro</button>
+<button onclick="savechecais()">💾 Salvar Registro</button>
 <button onclick="window.print()">📄 Exportar PDF</button>
 
 <div class="history">
@@ -167,7 +167,7 @@ function updateStatus(){
   document.getElementById("statusResumo").textContent =
     `Conferidos: ${ok} / ${labels.length}`;
 
-  localStorage.setItem("checklist", document.body.innerHTML);
+  localStorage.setItem("checks", document.body.innerHTML);
 }
 
 // EVENTOS
@@ -176,7 +176,7 @@ document.addEventListener("change",e=>{
 });
 
 // SALVAR
-function saveChecklist(){
+function savechecais(){
   const total=document.querySelectorAll("label").length;
   const ok=document.querySelectorAll("label.ok").length;
 
@@ -201,8 +201,8 @@ function toggleFullscreen(){
 }
 
 // LOAD
-if(localStorage.getItem("checklist")){
-  document.body.innerHTML=localStorage.getItem("checklist");
+if(localStorage.getItem("checks")){
+  document.body.innerHTML=localStorage.getItem("checks");
 }
 updateStatus();
 </script>
