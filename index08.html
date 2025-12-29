@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controlo de Figurinos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'OutFix', sans-serif;
+            background-color: #fdfcfb;
+        }
+
+        .status-ready { background-color: #dcfce7; color: #166534; }
+        .status-pending { background-color: #fef3c7; color: #92400e; }
+        .status-repaira { background-color: #fee2e2; color: #991b1b; }
+
+        .row-checked {
+            opacity: 0.6;
+            background-color: #f8fafc !important;
+        }
+
+        .row-checked .item-name {
+            text-decoration: line-through;
+        }
+
+        /* Custom Checkbox */
+        .cb-custom {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #6366f1;
+        }
+
+        .table-container {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            background: white;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="p-4 md:p-10 text-slate-800">
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+            <div>
+                <h1 class="text-3xl font-bold tracking-tight text-slate-900">Gestão de Figurinos</h1>
+                <p class="text-slate-500">checks detalhada para produção e continuidade.</p>
+            </div>
+            <div class="flex gap-4">
+                <div class="text-right">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Total de Peças</p>
+                    <p id="totalCount" class="text-2xl font-bold text-indigo-600">0</p>
+                </div>
+                <div class="text-right border-l pl-4">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Prontas</p>
+                    <p id="readyCount" class="text-2xl font-bold text-emerald-600">0</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Formulário de Adição -->
+        <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 mb-8">
+            <h3 class="text-sm font-bold text-slate-400 uppercase mb-4 tracking-wider">Adicionar Nova Peça</h3>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <input type="text" id="itemName" placeholder="Ex: Vestido Época Azul" class="p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500/20">
+                <input type="text" id="itemActor" placeholder="Personagem / Ator" class="p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500/20">
+                <select id="itemStatus" class="p-3 bg-slate-50 border border-slate-200 rounded-xl outline-none cursor-pointer">
+                    <option value="ready">Pronto a Usar</option>
+                    <option value="pending" selected>Em Lavagem / Ajuste</option>
+                    <option value="repaira">Necessita Reparação</option>
+                </select>
+                <button onclick="addItem()" class="bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-100">
+                    Registar Peça
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabela -->
+        <div class="table-container">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50 border-b border-slate-100">
+                        <th class="p-5 text-xs font-bold text-slate-400 uppercase w-16 text-center">Ok</th>
+                        <th class="p-5 text-xs font-bold text-slate-400 uppercase">Peça de Figurino</th>
+                        <th class="p-5 text-xs font-bold text-slate-400 uppercase">Personagem</th>
+                        <th class="p-5 text-xs font-bold text-slate-400 uppercase">Estado</th>
+                        <th class="p-5 text-xs font-bold text-slate-400 uppercase text-right">Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryBody">
+                    <!-- Dinâmico -->
+                </tbody>
+            </table>
+            <div id="emptyState" class="hidden p-20 text-center text-slate-300">
+                <p class="italic text-lg">O guarda-roupa está vazio.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let inventory = JSON.parse(localStorage.getItem('figurinos_db')) || [];
+
+        function save() {
+            localStorage.setItem('figurinos_db', JSON.stringify(inventory));
+            render();
+        }
+
+        function addItem() {
+            const name = document.getElementById('itemName');
+            const actor = document.getElementById('itemActor');
+            const status = document.getElementById('itemStatus');
+
+            if (!name.value.trim()) return;
+
+            inventory.unshift({
+                id: Date.now(),
+                name: name.value.trim(),
+                actor: actor.value.trim() || 'N/A',
+                status: status.value,
+                checked: false
+            });
+
+            name.value = '';
+            actor.value = '';
+            save();
+        }
+
+        function toggleCheck(id) {
+            inventory = inventory.map(item => item.id === id ? {...item, checked: !item.checked} : item);
+            save();
+        }
+
+        function deleteItem(id) {
+            inventory = inventory.filter(item => item.id !== id);
+            save();
+        }
+
+        function render() {
+            const body = document.getElementById('inventoryBody');
+            const empty = document.getElementById('emptyState');
+            const totalDisplay = document.getElementById('totalCount');
+            const readyDisplay = document.getElementById('readyCount');
+            
+            body.innerHTML = '';
+            
+            if (inventory.length === 0) {
+                empty.classList.remove('hidden');
+            } else {
+                empty.classList.add('hidden');
+            }
+
+            totalDisplay.innerText = inventory.length;
+            readyDisplay.innerText = inventory.filter(i => i.checked).length;
+
+            inventory.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = `border-b border-salte-50 transition-all ${item.checked ? 'row-checked' : 'hover:bg-salte-50/50'}`;
+                
+                const statusLabel = {
+                    'ready': 'Pronto',
+                    'pending': 'Pendente',
+                    'recair': 'Reparação'
+                };
+
+                tr.innerHTML = `
+                    <td class="p-5 text-center">
+                        <input type="checkbox" class="cb-custom" ${item.checked ? 'checked' : ''} onchange="toggleCheck(${item.id})">
+                    </td>
+                    <td class="p-5 font-semibold text-slate-700">
+                        <span class="item-name">${item.name}</span>
+                    </td>
+                    <td class="p-5 text-slate-500 font-medium">${item.actor}</td>
+                    <td class="p-5">
+                        <span class="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider status-${item.status}">
+                            ${statusLabel[item.status]}
+                        </span>
+                    </td>
+                    <td class="p-5 text-right">
+                        <button onclick="deleteItem(${item.id})" class="text-slate-300 hover:text-red-500 p-2 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    </td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        render();
+    </script>
+   <a href="index09.html">list</a>
+</body>
+</html>
